@@ -5,13 +5,13 @@
 #define TMAX 41
 
 void menu(void){
-	printf("--------------------MENU--------------------\n");
-	printf("0: QUITTER LE MENU\n");
-	printf("1: RECHERCHER UN OUVRAGE PAR SON NUMERO\n");
-	printf("2: RECHERCHER UN OUVRAGE PAR SON TITRE\n");
-	printf("3: LISTER LES OUVRAGES D'UN AUTEUR\n");
-	printf("4: SUPPRIMER UN LIVRE\n");
-	printf("5: LISTER LES DOUBLONS\n");
+	printf("		--------------------MENU--------------------\n");
+	printf("0: 			QUITTER LE MENU\n");
+	printf("1: 			RECHERCHER UN OUVRAGE PAR SON NUMERO\n");
+	printf("2: 			RECHERCHER UN OUVRAGE PAR SON TITRE\n");
+	printf("3: 			LISTER LES OUVRAGES D'UN AUTEUR\n");
+	printf("4: 			SUPPRIMER UN LIVRE\n");
+	printf("5: 			LISTER LES DOUBLONS\n");
 }
 	
 	

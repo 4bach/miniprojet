@@ -57,6 +57,7 @@ void lecture_n_entree(char *nomfic,int n,Biblio *B)
 
 	if(titre==NULL || auteur==NULL){
 		printf("Erreur lors de l'allocation de titre ou auteur\n");
+		return;
 	}
 	
 	if(n<=0){
@@ -134,9 +135,9 @@ void recherche_ouv_titre(char* titre,Biblio* B){
 	{
 	
 		
-		if(strcmp(titre,B->L->titre)==0){
+		if(strcmp(titre,tmp->L->titre)==0){
 			printf("Livre trouvé! Titre: %s  Auteur:%s Num:%d\n",tmp->L->titre,tmp->L->auteur,tmp->L->num);
-			
+			return;
 		}
 		tmp->L=tmp->L->suiv;
 		
@@ -153,23 +154,23 @@ void recherche_livre_par_auteur(char* auteur, Biblio* B){
 	int cpt=0;
 		
 	Biblio* tmp=B;
-	int i;
 	
-	for (i = 0; i <tmp->nbliv ; i++)
+	while(tmp->L)
 	{
 		
-		if(strcmp(auteur,B->L->auteur)==0){
-			if(cpt==0)
+		if(strcmp(auteur,tmp->L->auteur)==0){
+			if(cpt==0){
 				printf("L'auteur %s a écrit:\n",tmp->L->auteur);
-			
+			}
 			printf("- Titre: %s  Num:%d\n",tmp->L->titre,tmp->L->num);
+			cpt++;
+		}
+		if(tmp->L->suiv==NULL){
+			return;
 		}
 		tmp->L=tmp->L->suiv;
-		cpt++;
-		
-		
-		
-	}
+	}	
+
 	if(cpt==0)
 		printf("L'auteur %s n'a pas de livre écrit dans cette liste.\n",auteur);
 
@@ -192,7 +193,7 @@ void suppression_ouvrage(int n,Biblio* B){
 			free(s->L->titre);
 			free(s);
 			if(s==NULL)printf("Ouvrage %d supprimé de la bibliotheque\n",n);
-			
+			B->nbliv-=1;
 			return;
 		}
 		
@@ -217,7 +218,7 @@ void suppression_ouvrage(int n,Biblio* B){
 
 Biblio* cherche_double(Biblio* B){
 	
-	Biblio*bis=NULL;
+	Biblio* bis=NULL;
 	initialise_biblio(bis);
 	Biblio*tmp=B;
 	Biblio*tempo=B;
@@ -245,6 +246,8 @@ Biblio* cherche_double(Biblio* B){
 	
 
 
+
+		
 
 
 
