@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "bibl.h"
 #include "entree_sortie.h"
 #define TMAX 41
@@ -8,16 +9,8 @@
 void initialise_biblio(Biblio* bib)
 {
 
-	bib=(Biblio*)malloc(sizeof(Biblio));
-	if( bib ) {
 		bib->L=NULL;
 		bib->nbliv=0;
-	}
-	else{
-		printf("Biblio non initialisé\n");
-		return;
-	}
-
 }
 
 s_livre* creer_livre( int num, char* tit, char* aut ) 
@@ -68,7 +61,7 @@ void lecture_n_entree(char *nomfic,int n,Biblio *B)
 
 	}
 
-	s_livre* li;
+	s_livre* li=NULL;
 
 
 	if(((F=fopen(nomfic,"r"))==NULL)){
@@ -88,11 +81,6 @@ void lecture_n_entree(char *nomfic,int n,Biblio *B)
 
 		li=creer_livre(num,titre,auteur);
 		insertion_livre(li,B);
-
-
-
-
-
 	}
 
 
@@ -104,7 +92,8 @@ void lecture_n_entree(char *nomfic,int n,Biblio *B)
 }
 
 
-int recherche_ouv_num(int n,Biblio* B){
+int recherche_ouv_num(int n,Biblio* B)
+{
 	
 	Biblio* tmp=B;
 	int i;
@@ -126,7 +115,8 @@ int recherche_ouv_num(int n,Biblio* B){
 	return 0;
 }
 	
-void recherche_ouv_titre(char* titre,Biblio* B){
+void recherche_ouv_titre(char* titre,Biblio* B)
+{
 	
 	Biblio* tmp=B;
 	int i;
@@ -149,36 +139,34 @@ void recherche_ouv_titre(char* titre,Biblio* B){
 	
 }
 	
-void recherche_livre_par_auteur(char* auteur, Biblio* B){
+Biblio* recherche_livre_par_auteur(char* auteur, Biblio* B)
+{
 	
 	int cpt=0;
-		
-	Biblio* tmp=B;
+	s_livre* courant = B->L;
 	
-	while(tmp->L)
-	{
+	while(courant!=NULL) {
 		
-		if(strcmp(auteur,tmp->L->auteur)==0){
-			if(cpt==0){
-				printf("L'auteur %s a écrit:\n",tmp->L->auteur);
-			}
-			printf("- Titre: %s  Num:%d\n",tmp->L->titre,tmp->L->num);
-			cpt++;
+		cpt++;
+		
+		printf("%d\n",cpt);
+		if(strcmp(auteur,courant->auteur)==0){
+			printf("- Titre: %s  Num:%d\n",courant->titre,courant->num);
+			
 		}
-		if(tmp->L->suiv==NULL){
-			return;
-		}
-		tmp->L=tmp->L->suiv;
+		
+		
+		courant = courant->suiv;
 	}	
 
-	if(cpt==0)
-		printf("L'auteur %s n'a pas de livre écrit dans cette liste.\n",auteur);
+	
 
 }
 	
 	
 
-void suppression_ouvrage(int n,Biblio* B){
+void suppression_ouvrage(int n,Biblio* B)
+{
 	
 	
 	int i;
@@ -216,7 +204,8 @@ void suppression_ouvrage(int n,Biblio* B){
 
 
 
-Biblio* cherche_double(Biblio* B){
+Biblio* cherche_double(Biblio* B)
+{
 	
 	Biblio* bis=NULL;
 	initialise_biblio(bis);

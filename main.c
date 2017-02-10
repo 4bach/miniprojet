@@ -1,29 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "bibl.h"
 #include "entree_sortie.h"
 #define TMAX 41
 
 void menu(void){
-	printf("		--------------------MENU--------------------\n");
-	printf("0: 			QUITTER LE MENU\n");
-	printf("1: 			RECHERCHER UN OUVRAGE PAR SON NUMERO\n");
-	printf("2: 			RECHERCHER UN OUVRAGE PAR SON TITRE\n");
-	printf("3: 			LISTER LES OUVRAGES D'UN AUTEUR\n");
-	printf("4: 			SUPPRIMER UN LIVRE\n");
-	printf("5: 			LISTER LES DOUBLONS\n");
+	printf("--------------------MENU--------------------\n");
+	printf("0: QUITTER LE MENU\n");
+	printf("1: RECHERCHER UN OUVRAGE PAR SON NUMERO\n");
+	printf("2: RECHERCHER UN OUVRAGE PAR SON TITRE\n");
+	printf("3: LISTER LES OUVRAGES D'UN AUTEUR\n");
+	printf("4: SUPPRIMER UN LIVRE\n");
+	printf("5: LISTER LES DOUBLONS\n");
+	printf("6: INSERTION D'UN NOUVEL OUVRAGE\n");
 }
 	
 	
-	
+
 
 
 
 
 int main(int argc,char* *argv){
-
+	
 	int ch;
-	char* nomfic;
+	char* nomfic=strdup(argv[1]);
 	int n;
 	int nblignes;
 	Biblio B;
@@ -35,8 +37,6 @@ int main(int argc,char* *argv){
 		printf("Erreur format: %s <NomFichier_Biblio.txt><nbLigneALire>",argv[0]);
 		return 1;
 	}
-
-	nomfic = strdup(argv[1]);
 	nblignes=atoi(argv[2]);
 	printf("Lecture \n");
 	lecture_n_entree(nomfic,nblignes,&B);
@@ -78,7 +78,18 @@ int main(int argc,char* *argv){
 				while(Double){
 					printf("num: %d auteur: %s titre: %s\n",Double->L->num,Double->L->auteur,Double->L->titre);
 					Double->L=Double->L->suiv;
+					
 				}
+				break;
+			case 6:
+				printf("Saisir le nom de l'auteur\n");
+				scanf("%s",auteur);
+				printf("Saisir le titre\n");
+				scanf("%s",titre);
+				printf("%d\n",B.nbliv);
+				s_livre*li=creer_livre(B.nbliv,titre,auteur);
+				insertion_livre(li,&B);
+				break;
 
 
 		}
