@@ -7,13 +7,14 @@
 
 void menu(void){
 	printf("--------------------MENU--------------------\n");
-	printf("0: QUITTER LE MENU\n");
-	printf("1: RECHERCHER UN OUVRAGE PAR SON NUMERO\n");
-	printf("2: RECHERCHER UN OUVRAGE PAR SON TITRE\n");
-	printf("3: LISTER LES OUVRAGES D'UN AUTEUR\n");
-	printf("4: SUPPRIMER UN LIVRE\n");
-	printf("5: LISTER LES DOUBLONS\n");
-	printf("6: INSERTION D'UN NOUVEL OUVRAGE\n");
+	printf("|0: QUITTER LE MENU\n");
+	printf("|1: RECHERCHER UN OUVRAGE PAR SON NUMERO\n");
+	printf("|2: RECHERCHER UN OUVRAGE PAR SON TITRE\n");
+	printf("|3: LISTER LES OUVRAGES D'UN AUTEUR\n");
+	printf("|4: SUPPRIMER UN LIVRE\n");
+	printf("|5: LISTER LES DOUBLONS\n");
+	printf("|6: INSERTION D'UN NOUVEL OUVRAGE\n");
+	printf("|7: AFFICHER LA BIBLIOTHEQUE\n");
 }
 	
 	
@@ -26,11 +27,10 @@ int main(int argc,char* *argv){
 	
 	int ch;
 	char* nomfic=strdup(argv[1]);
-	int n;
+	int n; //Num de l'ouvrage
 	int nblignes;
 	Biblio B;
 	initialise_biblio(&B);
-	Biblio* Double=NULL;
 	char auteur[TMAX];
 	char titre[TMAX];
 	if(argc!=3){
@@ -56,7 +56,6 @@ int main(int argc,char* *argv){
 				break;
 
 			case 2:
-				
 				printf("Saisir le titre de l'ouvrage\n");
 				scanf("%s",titre);
 				recherche_ouv_titre(titre,&B);
@@ -66,6 +65,7 @@ int main(int argc,char* *argv){
 				printf("Saisir le nom de l'auteur\n");
 				scanf("%s",auteur);
 				recherche_livre_par_auteur(auteur,&B);
+				
 				break;
 			case 4:
 				printf("Saisir le numero de l'ouvrage\n");
@@ -73,23 +73,20 @@ int main(int argc,char* *argv){
 				suppression_ouvrage(n,&B);
 				break;
 			case 5:
-				
-				cherche_double(&B);
-				while(Double){
-					printf("num: %d auteur: %s titre: %s\n",Double->L->num,Double->L->auteur,Double->L->titre);
-					Double->L=Double->L->suiv;
-					
-				}
+				afficher_biblio(cherche_double(&B));
 				break;
 			case 6:
 				printf("Saisir le nom de l'auteur\n");
 				scanf("%s",auteur);
 				printf("Saisir le titre\n");
 				scanf("%s",titre);
-				printf("%d\n",B.nbliv);
-				s_livre*li=creer_livre(B.nbliv,titre,auteur);
+				s_livre*li=creer_livre(B.nbliv+1,titre,auteur);
 				insertion_livre(li,&B);
 				break;
+			case 7:
+				afficher_biblio(&B);
+				break;
+			
 
 
 		}
@@ -99,7 +96,7 @@ int main(int argc,char* *argv){
 
 	}while(ch!=0);
 
-	printf("Au revoir\n");
+	printf("FIN\n");
 	return 0;
 	
 }

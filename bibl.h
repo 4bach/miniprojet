@@ -31,4 +31,6 @@ void suppression_ouvrage(int n,Biblio* B);
 
 Biblio* cherche_double(Biblio* B);
 
+void afficher_biblio(Biblio* B);
+
 #endif
