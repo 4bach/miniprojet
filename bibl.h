@@ -12,6 +12,7 @@ typedef struct biblio{
 	s_livre * L; /*Liste chainee des livres*/
 	int nbliv; /*Nombre de livres dans la liste*/
 	}Biblio;
+
 	
 void initialise_biblio(Biblio* B);
 
