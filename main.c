@@ -17,12 +17,6 @@ void menu(void){
 	printf("|7: AFFICHER LA BIBLIOTHEQUE\n");
 }
 	
-	
-
-
-
-
-
 int main(int argc,char* *argv){
 	
 	int ch;

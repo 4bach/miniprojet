@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "bibl.h"
 #include "entree_sortie.h"
 #define TMAX 41
-#define LMAX 50000
+#define LMAX 100000
 
 // TOUT MARCHE SAUF DOUBLON
 void initialise_biblio(Biblio* bib)
@@ -97,8 +98,7 @@ int recherche_ouv_num(int n,Biblio* B)
 {
 	s_livre* courant = B->L;
 	
-	while(courant!=NULL)
-	{
+	while(courant!=NULL){
 		
 		if(courant->num==n){
 			printf("Livre trouvé! Titre: %s  Auteur:%s Num:%d\n",courant->titre,courant->auteur,courant->num);
@@ -114,8 +114,7 @@ void recherche_ouv_titre(char* titre,Biblio* B)
 {
 	int i;
 	s_livre* courant = B->L;
-	for (i = 0; i <B->nbliv; i++)
-	{
+	for (i = 0; i <B->nbliv; i++){
 		if(strcmp(titre,courant->titre)==0){
 			printf("Livre trouvé. Auteur: %s num: %d\n",courant->auteur,courant->num);
 			return;
@@ -139,8 +138,9 @@ void recherche_livre_par_auteur(char* auteur, Biblio* B)
 		}
 		courant = courant->suiv;
 	}	
-	if(bool==0)
+	if(bool==0) {
 		printf("L'auteur n'est pas dans la bibliothèque\n");
+	}
 	
 
 }
@@ -213,8 +213,8 @@ Biblio* cherche_double(Biblio* B)
 	
 }
 	
-void afficher_biblio(Biblio* B){
-	
+void afficher_biblio(Biblio* B)
+{	
 	s_livre* courant = B->L;
 	if(B->nbliv==0){
 		printf("La bibliothèque est vide\n");
@@ -226,12 +226,3 @@ void afficher_biblio(Biblio* B){
 	}
 }
 
-
-		
-
-
-
-	
-	
-	
-	
