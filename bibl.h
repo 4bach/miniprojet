@@ -29,8 +29,10 @@ void recherche_livre_par_auteur(char* auteur, Biblio* B);
 
 void suppression_ouvrage(int n,Biblio* B);
 
-Biblio* cherche_double(Biblio* B);
+void cherche_double(Biblio* B,Biblio* bis);
 
 void afficher_biblio(Biblio* B);
+
+void supprimer_biblio(Biblio* B);
 
 #endif

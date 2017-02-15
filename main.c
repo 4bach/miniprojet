@@ -15,6 +15,7 @@ void menu(void){
 	printf("|5: LISTER LES DOUBLONS\n");
 	printf("|6: INSERTION D'UN NOUVEL OUVRAGE\n");
 	printf("|7: AFFICHER LA BIBLIOTHEQUE\n");
+	printf("|8: SUPPRIMER LA BIBLIOTHEQUE\n");
 }
 	
 	
@@ -29,7 +30,7 @@ int main(int argc,char* *argv){
 	char* nomfic=strdup(argv[1]);
 	int n; //Num de l'ouvrage
 	int nblignes;
-	Biblio B;
+	Biblio B,bis;
 	initialise_biblio(&B);
 	char auteur[TMAX];
 	char titre[TMAX];
@@ -73,7 +74,9 @@ int main(int argc,char* *argv){
 				suppression_ouvrage(n,&B);
 				break;
 			case 5:
-				afficher_biblio(cherche_double(&B));
+				cherche_double(&B,&bis);
+				afficher_biblio(&bis);
+				supprimer_biblio(&bis);
 				break;
 			case 6:
 				printf("Saisir le nom de l'auteur\n");
@@ -86,7 +89,9 @@ int main(int argc,char* *argv){
 			case 7:
 				afficher_biblio(&B);
 				break;
-			
+			case 8:
+				supprimer_biblio(&B);
+				break;
 
 
 		}

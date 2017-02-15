@@ -184,16 +184,15 @@ void suppression_ouvrage(int n,Biblio* B)
 
 
 
-Biblio* cherche_double(Biblio* B)
+void cherche_double(Biblio* B,Biblio* bis)
 {
 	//MARCHE PAS
 	
-	Biblio* bis=NULL;
 	initialise_biblio(bis);
 	s_livre* courant=B->L;
 	if(!courant->suiv){
 		printf("La bibliotheque contient seulement 1 livre\n");
-		return NULL;
+		return;
 		}
 	s_livre* tmp=courant->suiv;
 	while(courant){
@@ -209,14 +208,14 @@ Biblio* cherche_double(Biblio* B)
 				
 	}
 	
-	return bis;
+
 	
 }
 	
 void afficher_biblio(Biblio* B){
 	
 	s_livre* courant = B->L;
-	if(B->nbliv==0){
+	if(B==NULL || B->nbliv==0){
 		printf("La bibliothèque est vide\n");
 		return;
 	}
@@ -224,6 +223,22 @@ void afficher_biblio(Biblio* B){
 		printf("Num:%d Titre:%s Auteur:%s\n",courant->num,courant->titre,courant->auteur);
 		courant=courant->suiv;
 	}
+}
+
+void supprimer_biblio(Biblio* B){
+
+	s_livre* courant=B->L;
+
+	while(B->nbliv!=0){
+
+		suppression_ouvrage(courant->num,B);
+		courant=courant->suiv;
+
+	}
+	//free(B);
+
+
+
 }
 
 
