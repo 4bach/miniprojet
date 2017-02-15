@@ -18,12 +18,6 @@ void menu(void){
 	printf("|8: SUPPRIMER LA BIBLIOTHEQUE\n");
 }
 	
-	
-
-
-
-
-
 int main(int argc,char* *argv){
 	
 	int ch;
