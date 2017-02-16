@@ -24,5 +24,7 @@ int fonctionHachage( int clef, int m );
 
 void hach_insertion_livre( s_livre* liv, tableHachage_t* Biblio );
 
+void hach_lecture_n_entree(char *nomfic,int n, tableHachage_t* t);
+
 
 #endif

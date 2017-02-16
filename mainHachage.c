@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "bibl.h"
+#include "tableHachage.h"
 #include "entree_sortie.h"
 #define TMAX 41
 
@@ -17,16 +18,15 @@ void menu(void){
 	printf("|7: AFFICHER LA BIBLIOTHEQUE\n");
 	printf("|8: SUPPRIMER LA BIBLIOTHEQUE\n");
 }
-	 
+	
 int main(int argc,char* *argv){
 	
 	int ch;
-	int i= 0;
 	char* nomfic=strdup(argv[1]);
 	int n; //Num de l'ouvrage
 	int nblignes;
 	Biblio B,bis;
-	initialise_biblio(&B);
+	tableHachage_t* tH = initTableHachage( 100 );
 	char auteur[TMAX];
 	char titre[TMAX];
 	if(argc!=3){
@@ -35,7 +35,7 @@ int main(int argc,char* *argv){
 	}
 	nblignes=atoi(argv[2]);
 	printf("Lecture \n");
-	lecture_n_entree(nomfic,nblignes,&B);
+	hach_lecture_n_entree( nomfic, nblignes, tH );
 
 	do{
 
