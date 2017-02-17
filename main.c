@@ -5,7 +5,8 @@
 #include "entree_sortie.h"
 #define TMAX 41
 
-void menu(void){
+void menu(void)
+{
 	printf("--------------------MENU--------------------\n");
 	printf("|0: QUITTER LE MENU\n");
 	printf("|1: RECHERCHER UN OUVRAGE PAR SON NUMERO\n");
@@ -18,7 +19,8 @@ void menu(void){
 	printf("|8: SUPPRIMER LA BIBLIOTHEQUE\n");
 }
 	 
-int main(int argc,char* *argv){
+int main(int argc,char* *argv)
+{
 	
 	int ch;
 	int i= 0;

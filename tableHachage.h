@@ -26,5 +26,9 @@ void hach_insertion_livre( s_livre* liv, tableHachage_t* Biblio );
 
 void hach_lecture_n_entree(char *nomfic,int n, tableHachage_t* t);
 
+int hach_recherche_ouv_num( int n, tableHachage_t* tH);
+
+void hach_afficher_biblio( tableHachage_t* tH );
+
 
 #endif

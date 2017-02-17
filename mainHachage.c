@@ -6,7 +6,8 @@
 #include "entree_sortie.h"
 #define TMAX 41
 
-void menu(void){
+void menu(void)
+{
 	printf("--------------------MENU--------------------\n");
 	printf("|0: QUITTER LE MENU\n");
 	printf("|1: RECHERCHER UN OUVRAGE PAR SON NUMERO\n");
@@ -19,73 +20,76 @@ void menu(void){
 	printf("|8: SUPPRIMER LA BIBLIOTHEQUE\n");
 }
 	
-int main(int argc,char* *argv){
+int main(int argc,char* *argv)
+{
 	
 	int ch;
 	char* nomfic=strdup(argv[1]);
 	int n; //Num de l'ouvrage
 	int nblignes;
 	Biblio B,bis;
-	tableHachage_t* tH = initTableHachage( 100 );
+	tableHachage_t* tH = initTableHachage( 10 );
 	char auteur[TMAX];
 	char titre[TMAX];
-	if(argc!=3){
-		printf("Erreur format: %s <NomFichier_Biblio.txt><nbLigneALire>",argv[0]);
+	if( argc != 3) {
+		printf( "Erreur format: %s <NomFichier_Biblio.txt><nbLigneALire>", argv[0] );
 		return 1;
 	}
-	nblignes=atoi(argv[2]);
-	printf("Lecture \n");
+	nblignes = atoi( argv[2] );
+
+	printf( "Lecture \n" );
+
 	hach_lecture_n_entree( nomfic, nblignes, tH );
 
 	do{
 
 		menu();
-		scanf("%d",&ch);
+		scanf( "%d", &ch );
 
 		switch(ch){
 
 			case 1:
-				printf("Saisir le numero de l'ouvrage\n");
-				scanf("%d",&n);
-				int bool=recherche_ouv_num(n,&B);
-				printf("%d",bool);
+				printf( "Saisir le numero de l'ouvrage\n" );
+				scanf ("%d", &n );
+				int bool=hach_recherche_ouv_num( n, tH );
+				printf( "%d", bool );
 				break;
 
 			case 2:
-				printf("Saisir le titre de l'ouvrage\n");
-				scanf("%s",titre);
-				recherche_ouv_titre(titre,&B);
+				printf( "Saisir le titre de l'ouvrage\n" );
+				scanf( "%s", titre );
+				recherche_ouv_titre( titre, &B );
 				break;
 			case 3:
 				
-				printf("Saisir le nom de l'auteur\n");
-				scanf("%s",auteur);
-				recherche_livre_par_auteur(auteur,&B);
+				printf( "Saisir le nom de l'auteur\n" );
+				scanf( "%s", auteur );
+				recherche_livre_par_auteur( auteur, &B );
 				
 				break;
 			case 4:
-				printf("Saisir le numero de l'ouvrage\n");
-				scanf("%d",&n);
-				suppression_ouvrage(n,&B);
+				printf( "Saisir le numero de l'ouvrage\n" );
+				scanf("%d", &n );
+				suppression_ouvrage( n, &B );
 				break;
 			case 5:
-				cherche_double(&B,&bis);
-				afficher_biblio(&bis);
-				supprimer_biblio(&bis);
+				cherche_double( &B, &bis );
+				afficher_biblio( &bis );
+				supprimer_biblio( &bis );
 				break;
 			case 6:
-				printf("Saisir le nom de l'auteur\n");
-				scanf("%s",auteur);
-				printf("Saisir le titre\n");
-				scanf("%s",titre);
-				s_livre*li=creer_livre(B.nbliv+1,titre,auteur);
-				insertion_livre(li,&B);
+				printf( "Saisir le nom de l'auteur\n" );
+				scanf( "%s", auteur );
+				printf( "Saisir le titre\n" );
+				scanf( "%s", titre );
+				s_livre*li = creer_livre( tH->nE+1, titre, auteur );
+				hach_insertion_livre( li, tH );
 				break;
 			case 7:
-				afficher_biblio(&B);
+				hach_afficher_biblio( tH );
 				break;
 			case 8:
-				supprimer_biblio(&B);
+				supprimer_biblio( &B );
 				break;
 
 

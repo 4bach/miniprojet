@@ -8,9 +8,17 @@
 #define TMAX 41
 #define LMAX 100000
 
-cell_t* creer_cell( int clef, s_livre* L ) 
+cell_t* initialise_cell() 
 {
-	return NULL;
+	cell_t *tmp = (cell_t*)malloc(sizeof(cell_t));
+	if( tmp == NULL ) {
+		printf("Erreur lors de l'allocation de la cellule");
+		return NULL;
+	}
+	tmp->clef = 0;
+	tmp->L = NULL;
+	tmp->suivant = NULL;
+	return tmp;
 }
 
 
@@ -25,20 +33,14 @@ tableHachage_t* initTableHachage( int m )
 	int i;
 	th->nE = 0;
 	th->m = m;
-	fprintf(stderr, "4\n" );
-	*(th->T) = (cell_t*)malloc( sizeof( cell_t ) * m);
-	fprintf(stderr, "5\n" );
-	if( *(th->T) == NULL ) {
+	th->T = ( cell_t** )malloc( sizeof( cell_t* ) * m );
+	if( th->T == NULL ) {
 		printf("Erreur lors de l'allocation des cases de la table de hachage\n");
 		return NULL;
 	}
-	fprintf(stderr, "6\n" );
-	for( i = 0; i < m; i++ ){
-		th->T[i]->clef = 0;
-		th->T[i]->L = NULL;
-		th->T[i]->suivant = NULL;
+	for( i = 0; i < m; i++ ) {
+		th->T[i] = initialise_cell();
 	}
-	fprintf(stderr, "7\n" );
 	return th;
 }
 
@@ -47,10 +49,11 @@ int fonctionClef( char* nom )
 {
 
 	int val = 0;
-	char* tmp = nom;
-	while( tmp != '\0' ) {
-		val += (int)tmp;
-		tmp++;
+	int i = 0;
+	while( nom[i] != '\0' ) {
+		//fprintf(stderr, "1--\n" );
+		val += (int)nom[i];
+		i++;
 	}
 	return val;
 }
@@ -73,17 +76,12 @@ void hach_insertion_livre( s_livre* liv, tableHachage_t* Bib )
 
 	cell_t* tmp = Bib->T[position];
 	while( tmp->suivant != NULL ){
-		tmp = Bib->T[position]->suivant;
+		tmp = tmp->suivant;
 	}
-	tmp->suivant = (cell_t*)malloc( sizeof( cell_t ));
-	if( tmp->suivant == NULL ) {
-		printf( "Erreur lors de la creation d'une cellule " );
-		return;
-	}
+	tmp->suivant = initialise_cell();
 
 	tmp = tmp->suivant;
 	tmp->clef = clef;
-	tmp->suivant = NULL;
 	tmp->L = liv;
 	Bib->nE++;
 }
@@ -124,14 +122,14 @@ void hach_lecture_n_entree(char *nomfic,int n, tableHachage_t* t)
 	for(i=0;i<n;i++){
 
 		num = GetEntier(F);
-
+		
 
 		GetChaine(F, TMAX, titre);
 
 
 		GetChaine(F, TMAX, auteur);
+		li = creer_livre(num,titre,auteur);
 
-		li=creer_livre(num,titre,auteur);
 		hach_insertion_livre(li,t);
 	}
 
@@ -141,6 +139,39 @@ void hach_lecture_n_entree(char *nomfic,int n, tableHachage_t* t)
 	}
 
 
+}
+
+int hach_recherche_ouv_num( int n, tableHachage_t* tH)
+{
+	int i;
+	for( i = 0; i < tH->m; i++ ) {
+		while( tH->T[i]->L != NULL ) {
+			if( tH->T[i]->L->num == n ) {
+				printf("Livre trouvé! Titre: %s  Auteur:%s Num:%d\n",tH->T[i]->L->titre,tH->T[i]->L->auteur,tH->T[i]->L->num);
+				return 1;
+			}
+			tH->T[i] = tH->T[i]->suivant;
+		}
+
+	}
+	
+	printf("Le livre dont le numéro d'ouvrage est:%d n'a pas été trouvé.\n",n);
+	return 0;
+}
+
+void hach_afficher_biblio( tableHachage_t* tH )
+{	
+	if( tH == NULL || tH->nE == 0) {
+		printf("La bibliothèque est vide\n");
+		return;
+	}
+	int i;
+	for( i = 0; i < tH->m; i++ ) {
+		while( tH->T[i]->L != NULL ) {
+			printf("Titre: %s  Auteur:%s Num:%d\n",tH->T[i]->L->titre,tH->T[i]->L->auteur,tH->T[i]->L->num);
+			tH->T[i] = tH->T[i]->suivant;
+		}
+	}
 }
 
 	
