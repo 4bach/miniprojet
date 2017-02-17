@@ -74,15 +74,12 @@ void hach_insertion_livre( s_livre* liv, tableHachage_t* Bib )
 	int clef =  fonctionClef( liv->auteur );
 	int position = fonctionHachage( clef, Bib->m );
 
-	cell_t* tmp = Bib->T[position];
-	while( tmp->suivant != NULL ){
-		tmp = tmp->suivant;
-	}
-	tmp->suivant = initialise_cell();
+	cell_t* new = initialise_cell();
+	new->clef = clef;
+	new->L = liv;
+	new->suivant = Bib->T[position];
+	Bib->T[position] = new;
 
-	tmp = tmp->suivant;
-	tmp->clef = clef;
-	tmp->L = liv;
 	Bib->nE++;
 }
 
@@ -92,56 +89,53 @@ void hach_lecture_n_entree(char *nomfic,int n, tableHachage_t* t)
 	FILE* F;
 	int i;
 	int num;
-	char* titre= (char*) malloc(TMAX*sizeof(char));
-	char* auteur= (char*) malloc(TMAX*sizeof(char));
+	char* titre = ( char* ) malloc( TMAX * sizeof( char ) );
+	char* auteur = ( char* ) malloc( TMAX * sizeof( char ) );
 
 	int test=t->nE;
 
 
-	if(titre==NULL || auteur==NULL){
+	if( titre == NULL || auteur == NULL) {
 		printf("Erreur lors de l'allocation de titre ou auteur\n");
 		return;
 	}
 	
-	if(n<=0){
+	if( n <= 0) {
 
 		printf("n trop petit\n");
 		return; 
-
-
 	}
 
 	s_livre* li=NULL;
 
-
-	if(((F=fopen(nomfic,"r"))==NULL)){
-		printf("Le fichier %s n'existe pas.\n",nomfic);
+	if( ( ( F = fopen( nomfic, "r" ) ) == NULL ) ) {
+		printf( "Le fichier %s n'existe pas.\n", nomfic );
 		return;
 	}
 
-	for(i=0;i<n;i++){
+	for( i = 0; i < n; i++ ) {
 
-		num = GetEntier(F);
+		num = GetEntier( F );
 		
 
-		GetChaine(F, TMAX, titre);
+		GetChaine( F, TMAX, titre) ;
 
 
-		GetChaine(F, TMAX, auteur);
-		li = creer_livre(num,titre,auteur);
+		GetChaine( F, TMAX, auteur );
+		li = creer_livre( num, titre, auteur );
 
-		hach_insertion_livre(li,t);
+		hach_insertion_livre( li, t );
 	}
 
 
-	if(test+n!= t->nE){
+	if( test + n != t->nE ) {
 		printf("Erreur dans l'insertion des livres dans la bibliothèque\n");
 	}
 
 
 }
 
-int hach_recherche_ouv_num( int n, tableHachage_t* tH)
+int hach_recherche_ouv_num( int n, tableHachage_t* tH ) 
 {
 	int i;
 	for( i = 0; i < tH->m; i++ ) {
@@ -158,6 +152,45 @@ int hach_recherche_ouv_num( int n, tableHachage_t* tH)
 	printf("Le livre dont le numéro d'ouvrage est:%d n'a pas été trouvé.\n",n);
 	return 0;
 }
+int hach_recherche_ouv_titre( char* titre, tableHachage_t* tH ) 
+{
+	int i;
+	for( i = 0; i < tH->m; i++ ) {
+		while( tH->T[i]->L != NULL ) {
+			if( strcmp(titre,tH->T[i]->L->titre) == 0 ) {
+				printf("Livre trouvé! Titre: %s  Auteur:%s Num:%d\n",tH->T[i]->L->titre,tH->T[i]->L->auteur,tH->T[i]->L->num);
+				return 1;
+			}
+			tH->T[i] = tH->T[i]->suivant;
+		}
+
+	}
+	
+	printf("Le livre dont le titre est:%s n'a pas été trouvé.\n",titre);
+	return 0;
+}
+
+void hach_recherche_livre_par_auteur(char* auteur, tableHachage_t* tH )
+{
+	
+	int bool = 0;
+	int clef =  fonctionClef( auteur );
+	int i = fonctionHachage( clef, tH->m );
+	while( tH->T[i]->L != NULL ) {
+		if( strcmp( auteur, tH->T[i]->L->auteur ) == 0 ) {
+
+			printf("Titre: %s num: %d\n",tH->T[i]->L->titre,tH->T[i]->L->num);
+			bool = 1;	
+		}
+
+		tH->T[i] = tH->T[i]->suivant;
+	}
+	if( bool == 0 ) {
+		printf("L'auteur n'est pas dans la bibliothèque\n");
+	}
+	
+
+}
 
 void hach_afficher_biblio( tableHachage_t* tH )
 {	
@@ -166,12 +199,16 @@ void hach_afficher_biblio( tableHachage_t* tH )
 		return;
 	}
 	int i;
+	int cpt = 0;
 	for( i = 0; i < tH->m; i++ ) {
-		while( tH->T[i]->L != NULL ) {
-			printf("Titre: %s  Auteur:%s Num:%d\n",tH->T[i]->L->titre,tH->T[i]->L->auteur,tH->T[i]->L->num);
-			tH->T[i] = tH->T[i]->suivant;
+		cell_t* tmp = tH->T[i];
+		while( tmp->L != NULL ) {
+			printf("Titre: %s  Auteur:%s Num:%d\n",tmp->L->titre,tmp->L->auteur,tmp->L->num);
+			tmp = tmp->suivant;
+			cpt++;
 		}
 	}
+	printf( "cpt = %d\n", cpt );
 }
 
 	

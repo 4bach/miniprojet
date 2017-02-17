@@ -58,13 +58,13 @@ int main(int argc,char* *argv)
 			case 2:
 				printf( "Saisir le titre de l'ouvrage\n" );
 				scanf( "%s", titre );
-				recherche_ouv_titre( titre, &B );
+				hach_recherche_ouv_titre( titre, tH );
 				break;
 			case 3:
 				
 				printf( "Saisir le nom de l'auteur\n" );
 				scanf( "%s", auteur );
-				recherche_livre_par_auteur( auteur, &B );
+				hach_recherche_livre_par_auteur( auteur, tH );
 				
 				break;
 			case 4:

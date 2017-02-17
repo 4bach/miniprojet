@@ -28,6 +28,10 @@ void hach_lecture_n_entree(char *nomfic,int n, tableHachage_t* t);
 
 int hach_recherche_ouv_num( int n, tableHachage_t* tH);
 
+int hach_recherche_ouv_titre( char* titre, tableHachage_t* tH);
+
+void hach_recherche_livre_par_auteur(char* auteur, tableHachage_t* tH );
+
 void hach_afficher_biblio( tableHachage_t* tH );
 
 
