@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "bibl.h"
 #include "entree_sortie.h"
 #define TMAX 41
@@ -23,7 +24,8 @@ int main(int argc,char* *argv)
 {
 	
 	int ch;
-	int i= 0;
+	clock_t start,end;
+	float total;
 	char* nomfic=strdup(argv[1]);
 	int n; //Num de l'ouvrage
 	int nblignes;
@@ -47,47 +49,82 @@ int main(int argc,char* *argv)
 		switch(ch){
 
 			case 1:
+				
 				printf("Saisir le numero de l'ouvrage\n");
 				scanf("%d",&n);
+				start=clock();
 				int bool=recherche_ouv_num(n,&B);
-				printf("%d",bool);
+				end=clock();
+				printf("%d\n",bool);
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 
 			case 2:
+				
 				printf("Saisir le titre de l'ouvrage\n");
 				scanf("%s",titre);
+				start=clock();
 				recherche_ouv_titre(titre,&B);
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 			case 3:
 				
 				printf("Saisir le nom de l'auteur\n");
 				scanf("%s",auteur);
+				start=clock();
 				recherche_livre_par_auteur(auteur,&B);
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				
 				break;
 			case 4:
+				
 				printf("Saisir le numero de l'ouvrage\n");
 				scanf("%d",&n);
+				start=clock();
 				suppression_ouvrage(n,&B);
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 			case 5:
+				start=clock();
 				cherche_double(&B,&bis);
+				end=clock();
 				afficher_biblio(&bis);
 				supprimer_biblio(&bis);
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 			case 6:
 				printf("Saisir le nom de l'auteur\n");
 				scanf("%s",auteur);
 				printf("Saisir le titre\n");
 				scanf("%s",titre);
+				start=clock();
 				s_livre*li=creer_livre(B.nbliv+1,titre,auteur);
 				insertion_livre(li,&B);
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 			case 7:
+				start=clock();
 				afficher_biblio(&B);
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 			case 8:
+				start=clock();
 				supprimer_biblio(&B);
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 
 

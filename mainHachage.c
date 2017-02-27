@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "bibl.h"
 #include "tableHachage.h"
 #include "entree_sortie.h"
@@ -22,13 +23,14 @@ void menu(void)
 	
 int main(int argc,char* *argv)
 {
-	
+	clock_t start,end;
+	float total;
 	int ch;
 	char* nomfic=strdup(argv[1]);
 	int n; //Num de l'ouvrage
 	int nblignes;
 	Biblio B,bis;
-	tableHachage_t* tH = initTableHachage( 10 );
+	tableHachage_t* tH = initTableHachage( 30 );
 	char auteur[TMAX];
 	char titre[TMAX];
 	if( argc != 3) {
@@ -49,47 +51,82 @@ int main(int argc,char* *argv)
 		switch(ch){
 
 			case 1:
+				
 				printf( "Saisir le numero de l'ouvrage\n" );
 				scanf ("%d", &n );
+				start=clock();
 				int bool=hach_recherche_ouv_num( n, tH );
 				printf( "%d", bool );
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 
 			case 2:
+				
 				printf( "Saisir le titre de l'ouvrage\n" );
 				scanf( "%s", titre );
+				start=clock();
 				hach_recherche_ouv_titre( titre, tH );
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 			case 3:
-				
+				;
 				printf( "Saisir le nom de l'auteur\n" );
 				scanf( "%s", auteur );
+				start=clock();
 				hach_recherche_livre_par_auteur( auteur, tH );
-				
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 			case 4:
+				
 				printf( "Saisir le numero de l'ouvrage\n" );
 				scanf("%d", &n );
+				start=clock();
 				suppression_ouvrage( n, &B );
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 			case 5:
+				start=clock();
 				cherche_double( &B, &bis );
 				afficher_biblio( &bis );
 				supprimer_biblio( &bis );
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 			case 6:
+				
 				printf( "Saisir le nom de l'auteur\n" );
 				scanf( "%s", auteur );
 				printf( "Saisir le titre\n" );
 				scanf( "%s", titre );
+				start=clock();
 				s_livre*li = creer_livre( tH->nE+1, titre, auteur );
 				hach_insertion_livre( li, tH );
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 			case 7:
+				start=clock();
 				hach_afficher_biblio( tH );
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 			case 8:
+				start=clock();
 				supprimer_biblio( &B );
+				end=clock();
+				total=(float)(end-start)/CLOCKS_PER_SEC;
+				printf("Temps de calcul: %f\n",total);
 				break;
 
 

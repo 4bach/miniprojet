@@ -5,6 +5,7 @@
 #include "bibl.h"
 #include "entree_sortie.h"
 #include "tableHachage.h"
+#include <time.h>
 #define TMAX 41
 #define LMAX 100000
 
